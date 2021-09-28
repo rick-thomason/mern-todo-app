@@ -27,19 +27,20 @@ const createTodo = async (req, res) => {
 
 const getTodo = async (req, res) => {
   const { id } = req.params
-  const todo = await Todo.findOne({ id })
+  const todo = await Todo.findById(id)
   res.json(todo)
 }
 
 const updateTodo = async (req, res) => {
   const { id } = req.params
-  const todo = await Todo.findOne({ id })
+  const todo = await Todo.findByIdAndUpdate(id)
+  res.send('form to update todo')
 }
 
 const deleteTodo = async (req, res) => {
   const { id } = req.params
   try {
-    await Todo.remove({ id })
+    await Todo.findByIdAndDelete(id)
     res.sendStatus(204)
   } catch (err) {
     res.status(500).send(err.message)
