@@ -1,5 +1,10 @@
 const Todo = require('../models/todo')
 
+const getAllTodos = async (req, res) => {
+  const todos = await Todo.find({})
+  res.json(todos)
+}
+
 const createTodo = async (req, res) => {
   const { name, author, isComplete, date, uuid } = req.body
 
@@ -21,5 +26,6 @@ const createTodo = async (req, res) => {
 }
 
 module.exports = {
+  getAllTodos,
   createTodo
 }
