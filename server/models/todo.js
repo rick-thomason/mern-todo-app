@@ -2,20 +2,24 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose
 
 const todoSchema = new Schema({
-  name   : {
+  name       : {
     type      : String,
     required  : true,
     minlength : 3,
     maxlength : 200
   },
-  author : {
+  author     : {
     type       : String,
     uuid       : String,
     isComplete : Boolean
   },
-  date   : {
+  date       : {
     type    : Date,
     default : new Date()
+  },
+  isComplete : {
+    type    : Boolean,
+    default : false
   }
 })
 

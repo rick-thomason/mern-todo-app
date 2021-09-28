@@ -25,7 +25,32 @@ const createTodo = async (req, res) => {
   }
 }
 
+const getTodo = async (req, res) => {
+  const { id } = req.params
+  const todo = await Todo.findOne({ id })
+  res.json(todo)
+}
+
+const updateTodo = async (req, res) => {
+  const { id } = req.params
+  const todo = await Todo.findOne({ id })
+}
+
+const deleteTodo = async (req, res) => {
+  const { id } = req.params
+  try {
+    await Todo.remove({ id })
+    res.sendStatus(204)
+  } catch (err) {
+    res.status(500).send(err.message)
+    console.log(err.message)
+  }
+}
+
 module.exports = {
   getAllTodos,
-  createTodo
+  createTodo,
+  getTodo,
+  updateTodo,
+  deleteTodo
 }
