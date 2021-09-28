@@ -1,4 +1,5 @@
 const Todo = require('../models/todo')
+const Joi = require('joi')
 
 const getAllTodos = async (req, res) => {
   const todos = await Todo.find({})
@@ -6,6 +7,17 @@ const getAllTodos = async (req, res) => {
 }
 
 const createTodo = async (req, res) => {
+  const schema = Joi.object({
+    name       : Joi.string().min(3).max(200).required(),
+    author     : Joi.string().min(3).max(30).required(),
+    uuid       : Joi.string(),
+    isComplete : Joi.boolean(),
+    date       : Joi.date()
+  })
+
+  const { value, error } = schema.validate(req.body)
+  console.log(value)
+
   const { name, author, isComplete, date, uuid } = req.body
 
   let todo = new Todo({

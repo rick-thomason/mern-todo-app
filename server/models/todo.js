@@ -9,9 +9,12 @@ const todoSchema = new Schema({
     maxlength : 200
   },
   author     : {
-    type       : String,
-    uuid       : String,
-    isComplete : Boolean
+    type      : String,
+    minlength : 3,
+    maxlength : 30
+  },
+  uuid       : {
+    type : String
   },
   date       : {
     type    : Date,
