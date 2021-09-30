@@ -1,6 +1,6 @@
 const User = require('../models/user')
 
-const createUser = async (req, res) => {
+const registerUser = async (req, res) => {
   const { name, email, password } = req.body
   const user = new User({ name, email, password })
   try {
@@ -35,7 +35,7 @@ const renderLogin = (req, res) => {
 }
 
 module.exports = {
-  createUser,
+  registerUser,
   loginUser,
   renderRegister,
   renderLogin
