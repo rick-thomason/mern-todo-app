@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 
 const todoRoutes = require('./routes/todos')
+const userRoutes = require('./routes/users')
 
 require('dotenv').config()
 
@@ -12,6 +13,7 @@ app.use(express.json())
 
 // Routes
 app.use('/api/todos', todoRoutes)
+app.use('/api/users', userRoutes)
 
 // Set up mongoose to use the MongoDB database
 mongoose
