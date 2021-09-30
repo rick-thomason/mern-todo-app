@@ -15,7 +15,7 @@ const createTodo = async (req, res) => {
   const schema = Joi.object({
     name       : Joi.string().min(3).max(200).required(),
     author     : Joi.string().min(3).max(30).required(),
-    uuid       : Joi.string(),
+    uid        : Joi.string(),
     isComplete : Joi.boolean(),
     date       : Joi.date()
   })
@@ -24,14 +24,14 @@ const createTodo = async (req, res) => {
 
   if (error) return res.status(400).send(error.details[0].message)
 
-  const { name, author, isComplete, date, uuid } = req.body
+  const { name, author, isComplete, date, uid } = req.body
 
   let todo = new Todo({
     name,
     author,
     isComplete,
     date,
-    uuid
+    uid
   })
 
   try {
@@ -53,7 +53,7 @@ const updateTodo = async (req, res) => {
   const schema = Joi.object({
     name       : Joi.string().min(3).max(200).required(),
     author     : Joi.string().min(3).max(30).required(),
-    uuid       : Joi.string(),
+    uid        : Joi.string(),
     isComplete : Joi.boolean(),
     date       : Joi.date()
   })
@@ -63,15 +63,14 @@ const updateTodo = async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message)
   const { id } = req.params
 
-  const todo = await Todo.findById(id)
-  if (!todo) return res.status(404).send('Todo not found')
-
   try {
-    const { name, author, isComplete, date, uuid } = req.body
-    const updatedTodo = await Todo.findByIdAndUpdate(id, { name, author, isComplete, date, uuid }, { new: true })
+    const todo = await Todo.findById(id)
+    if (!todo) return res.status(404).send('Todo not found')
+
+    const { name, author, isComplete, date, uid } = req.body
+    const updatedTodo = await Todo.findByIdAndUpdate(id, { name, author, isComplete, date, uid }, { new: true })
 
     res.send(updatedTodo)
-    res.send('form to update todo')
   } catch (err) {
     res.status(500).send(err.message)
     console.log(err.message)
@@ -80,9 +79,14 @@ const updateTodo = async (req, res) => {
 
 const deleteTodo = async (req, res) => {
   const { id } = req.params
+
   try {
+    const todo = await Todo.findById(id)
+
+    if (!todo) return res.status(404).send('Todo not found')
+
     const deletedTodo = await Todo.findByIdAndDelete(id)
-    res.send('todo deleted')
+    res.send(todo)
   } catch (err) {
     res.status(500).send(err.message)
     console.log(err.message)
