@@ -16,13 +16,16 @@ app.use('/api/todos', todoRoutes)
 app.use('/api/users', userRoutes)
 
 // Set up mongoose to use the MongoDB database
+const server = 'localhost:27017'
+const database = 'mern_todo_app'
+
 mongoose
-  .connect('mongodb://localhost:27017/mern_todo_app', {
+  .connect(`mongodb://${server}/${database}`, {
     useNewUrlParser    : true,
     useUnifiedTopology : true
   })
   .then(() => {
-    console.log('CONNECTED TO MongoDB LOCALLY...')
+    console.log('CONNECTED TO MongoDB...')
   })
   .catch(err => {
     console.log('OH NO AN ERROR!!!')
